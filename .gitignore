@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+*.db
+.fetch-client/
+memory.json
+memory.json
