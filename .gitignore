@@ -4,3 +4,4 @@ __pycache__/
 .fetch-client/
 memory.json
 memory.json
+eval_run/
