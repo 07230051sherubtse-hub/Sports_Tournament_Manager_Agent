@@ -760,7 +760,7 @@ if page == "Tournament Dashboard":
 
     format1, format2 = st.columns(2)
 
-    format1.info("🏆 Knockout Tournament")
+    format1.info("🏆 Knockout Tournament (not implemented)")
     format2.info("🔄 Round-Robin Tournament")
 
     st.divider()
@@ -1068,22 +1068,14 @@ elif page == "AI Assistant":
             st.subheader("Available Agent Tools")
 
             tool_data = [
-                ("👥", "Team Registration",
-                 "Register and manage tournament teams."),
-                ("🏆", "Tournament Management",
-                 "Create and configure tournaments."),
-                ("📅", "Fixture Generation",
-                 "Generate knockout and round-robin fixtures."),
-                ("⏰", "Match Scheduling",
-                 "Allocate match dates, times and courts."),
-                ("✅", "Conflict Checking",
-                 "Detect scheduling and venue conflicts."),
-                ("⚽", "Score Management",
-                 "Record match results."),
-                ("📊", "Standings Calculation",
-                 "Calculate tournament standings."),
-                ("📈", "Tournament Analytics",
-                 "Review tournament activity and performance.")
+                ("👥", "add_team", "Add a team to the tournament."),
+                ("🚫", "withdraw_team", "Withdraw a team and cancel its unplayed matches (needs confirmation)."),
+                ("📅", "generate_schedule", "Create a round-robin schedule, skip avoided weekdays, then self-check."),
+                ("⚠️", "find_conflicts", "Check for double-booked courts or teams."),
+                ("⚽", "record_result", "Record a match score by match id."),
+                ("📊", "standings", "Show the league table."),
+                ("📋", "list_matches", "List matches with ids, dates, courts and scores."),
+                ("🧠", "avoid_weekday", "Remember a weekday with no matches."),
             ]
 
             for icon, name, description in tool_data:
