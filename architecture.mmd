@@ -1,0 +1,32 @@
+
+flowchart TD
+    U["Organizer (CLI or Streamlit)"] --> G{"Input guardrail<br/>check_input: blocklist, max 500 chars"}
+    G -- blocked --> BL["Blocked message<br/>logged to trace.jsonl"]
+    G -- allowed --> PB["Prompt builder<br/>user text + saved preferences + adaptive note"]
+    PB --> A["LLM agent loop (ReAct)<br/>qwen2.5:3b via ChatOllama<br/>system prompt + tool docstrings"]
+    A --> TS{"Tool selection"}
+
+    subgraph TOOLS["8 traced tools"]
+        direction LR
+        T1["add_team"]
+        T2["withdraw_team<br/>confirmation gate"]
+        T3["generate_schedule<br/>avoid-day filter + self-check"]
+        T4["find_conflicts"]
+        T5["record_result"]
+        T6["standings"]
+        T7["list_matches"]
+        T8["avoid_weekday"]
+    end
+
+    TS --> TOOLS
+    TOOLS --> DB[("SQLite database<br/>teams, matches")]
+    T8 --> MEM[("memory.json<br/>avoid_days, courts, times, days")]
+    T3 --> MEM
+    TOOLS --> TR[("trace.jsonl<br/>tool calls, replies, ratings")]
+    TOOLS -- "result or Failed: error" --> A
+    A --> R["Reply to organizer"]
+    R --> RT["Star rating 1-5"]
+    RT --> TR
+    TR --> AN["adaptive_note<br/>mean of last 5 ratings below 3"]
+    AN -. "adds an instruction to the next prompt" .-> PB
+    MEM -. "injected as saved preferences" .-> PB
