@@ -1,0 +1,3 @@
+{"time": "2026-11-14 12:10:04", "type": "tool", "tool": "add_team", "args": {"name": "Falcons"}, "result": "Added team Falcons.", "seconds": 0.011}
+{"time": "2026-11-14 12:10:10", "type": "tool", "tool": "add_team", "args": {"name": "Panthers"}, "result": "Added team Panthers.", "seconds": 0.008}
+{"time": "2026-11-14 12:10:26", "type": "tool", "tool": "generate_schedule", "args": {"start_date": "2026-11-09", "courts": ["Court 1", "Court 2"], "times": ["09:00", "11:00"], "days_of_week": [0, 1, 2, 3, 4, 5]}, "result": "Scheduled 9 match(es), 0 could not be placed.\nSelf-check: 0 conflict(s) found", "seconds": 0.014}
