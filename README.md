@@ -20,7 +20,7 @@ remembers user preferences, and adapts to user feedback.
 - Tracing: every tool call, reply and rating is logged to `trace.jsonl`
 
 ## Requirements
-- Python 3.11+ [CHECK: run `python --version`]
+- Python 3.11 or newer
 - [Ollama](https://ollama.com) with the `qwen2.5:3b` model
 
 ## Setup
@@ -54,6 +54,9 @@ accuracy, safety block rate, average latency). Per-case results are saved to
 `results.csv`. Recorded runs: `before.txt` (before adding `list_matches` and
 `avoid_weekday`) and `after.txt` (after).
 
+Note: `eval.py` temporarily replaces `tournament.db` and `memory.json` with
+empty copies and restores your originals afterwards. It deletes `trace.jsonl`.
+
 | Metric | Before | After |
 |---|---|---|
 | Task success | 17/23 (74%) | 22/23 (96%) |
@@ -67,17 +70,23 @@ Results come from single runs with a small local model and may vary.
 | File | Purpose |
 |---|---|
 | `agent.py` | Agent: tools, system prompt, guardrails, memory, feedback, CLI loop |
-| `tools.py` | Database logic behind the tools (SQLite) [CHECK] |
+| `tools.py` | Database logic behind the tools (SQLite) |
 | `app.py` | Streamlit interface |
 | `eval.py` | Evaluation script (23 test cases) |
+| `make_charts.py` | Builds the evaluation charts from `before.txt` and `after.txt` |
 | `test_tools.py` | Tests for the database tools |
 | `memory.json` | Persistent preferences |
-| `trace.jsonl` | Log of tool calls, replies and ratings |
-| `results.csv` | Latest evaluation results |
+| `trace.jsonl` | Log of tool calls, replies and ratings (generated) |
+| `results.csv` | Latest recorded evaluation results |
 | `before.txt`, `after.txt` | Recorded evaluation outputs |
+| `architecture.png`, `architecture.mmd` | Architecture diagram and its source |
+| `charts/` | Evaluation charts |
+| `screenshots/` | Dashboard screenshots (illustrations, not evaluation evidence) |
 
 ## Known limitations
 - A 3B local model sometimes fails to pick a tool (case `list_2` still fails).
+- Replies can misstate tool output; the evaluation checks tool calls, not
+  reply text.
 - The input blocklist is a simple substring check and can be bypassed.
 - No automatic retries when a tool fails.
 - Evaluation is a small suite run once per version.
